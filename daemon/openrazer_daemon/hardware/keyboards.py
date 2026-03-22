@@ -1441,11 +1441,11 @@ class RazerDeathStalkerV2ProWired(_RippleKeyboard):
     DEVICE_IMAGE = "https://dl.razerzone.com/src/6118/6118-1-en-v1.png"
 
 
-class RazerProTypeUltra(_RazerDeviceBrightnessSuspend):
+class RazerProTypeUltraWired(_RazerDeviceBrightnessSuspend):
     """
-    Class for the Razer Pro Type Ultra
+    Class for the Razer Pro Type Ultra (Wired)
     """
-    EVENT_FILE_REGEX = re.compile(r'.*Pro_Type_Ultra(-if01)?-event-kbd')
+    EVENT_FILE_REGEX = re.compile(r'.*Razer_Pro_Type_Ultra(-if01)?-event-kbd')
 
     USB_VID = 0x1532
     USB_PID = 0x0277
@@ -1456,6 +1456,16 @@ class RazerProTypeUltra(_RazerDeviceBrightnessSuspend):
                'get_battery', 'is_charging']
 
     DEVICE_IMAGE = "https://dl.razerzone.com/src/5765/5765-1-en-v1.png"
+
+
+class RazerProTypeUltraWireless(RazerProTypeUltraWired):
+    """
+    Class for the Razer Pro Type Ultra (Wireless)
+    """
+    EVENT_FILE_REGEX = re.compile(r'.*Razer_Pro_Type_Ultra_000000000000(-if01)?-event-kbd')
+
+    USB_PID = 0x027B
+
 
 
 class RazerDeathStalkerV2ProWireless(RazerDeathStalkerV2ProWired):

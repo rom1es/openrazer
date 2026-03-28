@@ -2883,13 +2883,18 @@ static ssize_t razer_attr_write_matrix_effect_static(struct device *dev, struct 
 
     case USB_DEVICE_ID_RAZER_PRO_TYPE_ULTRA_WIRED:
     case USB_DEVICE_ID_RAZER_PRO_TYPE_ULTRA_WIRELESS:
-        if (count != 1) {
-            printk(KERN_WARNING "razerkbd: Static mode only accepts '1' (1byte).\n");
+        if (count != 3) {
+            printk(KERN_WARNING "razerkbd: Static mode only accepts RGB (3byte).\n");
             return -EINVAL;
         }
-        request = razer_pro_type_matrix_effect_static(VARSTORE, BACKLIGHT_LED, buf[0]);
-        request.transaction_id.id = 0x1F;
-        razer_send_payload(device, &request, &response);
+        {
+            unsigned char brightness = (unsigned char)buf[0];
+            if ((unsigned char)buf[1] > brightness) brightness = (unsigned char)buf[1];
+            if ((unsigned char)buf[2] > brightness) brightness = (unsigned char)buf[2];
+            request = razer_pro_type_matrix_effect_static(VARSTORE, BACKLIGHT_LED, brightness);
+            request.transaction_id.id = 0x1F;
+            razer_send_payload(device, &request, &response);
+        }
         break;
 
     case USB_DEVICE_ID_RAZER_BLACKWIDOW_V3_PRO_WIRELESS:
@@ -3288,13 +3293,18 @@ static ssize_t razer_attr_write_matrix_effect_breath(struct device *dev, struct 
 
     case USB_DEVICE_ID_RAZER_PRO_TYPE_ULTRA_WIRED:
     case USB_DEVICE_ID_RAZER_PRO_TYPE_ULTRA_WIRELESS:
-        if (count != 1) {
-            printk(KERN_WARNING "razerkbd: Breathing only accepts '1' (1byte).\n");
+        if (count != 3) {
+            printk(KERN_WARNING "razerkbd: Breathing only accepts RGB (3byte).\n");
             return -EINVAL;
         }
-        request = razer_pro_type_matrix_effect_breathing(VARSTORE, BACKLIGHT_LED, buf[0]);
-        request.transaction_id.id = 0x1F;
-        razer_send_payload(device, &request, &response);
+        {
+            unsigned char brightness = (unsigned char)buf[0];
+            if ((unsigned char)buf[1] > brightness) brightness = (unsigned char)buf[1];
+            if ((unsigned char)buf[2] > brightness) brightness = (unsigned char)buf[2];
+            request = razer_pro_type_matrix_effect_breathing(VARSTORE, BACKLIGHT_LED, brightness);
+            request.transaction_id.id = 0x1F;
+            razer_send_payload(device, &request, &response);
+        }
         break;
 
     case USB_DEVICE_ID_RAZER_BLACKWIDOW_V3_PRO_WIRELESS:
